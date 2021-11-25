@@ -1,4 +1,6 @@
 import re
+import jwt
+import bcrypt
 
 from django.core.exceptions import ValidationError
 
@@ -23,3 +25,16 @@ def validate_pwd(pwd):
 
     return pwd
 
+
+def validate_user_id(id):
+    if not User.objects.filter(id=id).exists():
+        raise ValidationError(("INVALID INPUT"), code = "invalid")
+    
+    return User.objects.get(id=id)
+
+
+def validate_user_pwd(user, pwd):
+    if not bcrypt.checkpw(pwd.encode('utf-8'), user.password.encode('utf-8')):
+        raise ValidationError(("INVALID INPUT"), code = "invalid")
+    
+    return True
