@@ -1,15 +1,40 @@
 import json
 
-from django.views.generic import View
-from django.http          import JsonResponse
 from django.db            import transaction
+from django.http          import JsonResponse
+from django.forms.models import model_to_dict 
+from django.views.generic import View
 
 from users.models   import User
 from cars.models    import Car, FrontTire, RearTire, Spec
-from core.utils     import get_car_info, create_tire
+from core.utils     import login_check, get_car_info, create_tire
 
 
 class CarView(View):
+    @login_check
+    def get(self, request):
+        try:
+            user_id = request.GET.get("id")
+
+            if request.user.id != user_id:
+                return JsonResponse({"message":"WRONG USER"}, status=401)
+
+            f_dict = model_to_dict(
+                User.objects.get(id=request.user.id).car.spec.front_tire, 
+                                fields=["name", "width", "aspect_ratio", "wheel_size"]
+                )   
+            
+            r_dict = model_to_dict(
+                User.objects.get(id=request.user.id).car.spec.rear_tire, 
+                                fields=["name", "width", "aspect_ratio", "wheel_size"]
+                )
+            
+        except AttributeError:
+            return JsonResponse({"message":"NOT FOUND TIRE INFO"}, status=404)
+
+        return JsonResponse({f"{request.user.id} TIRE INFORMATION": [f_dict, r_dict]}, status=200)
+
+
     def post(self, request):
         saved_tire_list   = []
         unsaved_tire_list = []
@@ -62,4 +87,3 @@ class CarView(View):
             },
             status=200
         )
-
