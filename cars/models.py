@@ -30,9 +30,9 @@ class RearTire(models.Model):
         db_table = "rear_tires"
 
 class Spec(models.Model):
-    car        = models.OneToOneField(Car, on_delete=models.CASCADE)
+    car        = models.OneToOneField(Car, on_delete=models.CASCADE, related_name="spec")
     front_tire = models.ForeignKey(FrontTire, null=True, on_delete=models.SET_NULL)
-    back_tire  = models.ForeignKey(RearTire, null=True, on_delete=models.SET_NULL)
+    rear_tire  = models.ForeignKey(RearTire, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         db_table = "specs"
