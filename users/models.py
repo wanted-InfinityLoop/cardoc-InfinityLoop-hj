@@ -6,3 +6,5 @@ class User(models.Model):
     password = models.CharField(max_length=64)
     car      = models.ForeignKey("cars.Car", null=True, on_delete=models.SET_NULL)
 
+    class Meta:
+        db_table = "users"
