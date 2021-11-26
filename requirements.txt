@@ -3,3 +3,4 @@ Django==3.2.5
 django-cors-headers==3.10.0
 PyJWT==1.7.1
 requests==2.26.0
+gunicorn==20.1.0 
