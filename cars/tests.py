@@ -4,9 +4,10 @@ import bcrypt
 
 from django.test import TestCase, Client
 
-from cars.models import Car, FrontTire, RearTire, Spec
+from cars.models  import Car, FrontTire, RearTire, Spec
 from users.models import User
 from my_settings  import MY_SECRET_KEY, ALGORITHM
+
 
 class CarTest(TestCase):
 
@@ -145,21 +146,21 @@ class CarTest(TestCase):
 
     def test_get_tire_info_success(self):
         header = {"HTTP_Authorization": self.user1_token}
-        response=self.client.get('/car/tire?id=test1', **header, content_type='application/json')
+        response=self.client.get("/car/tire?id=test1", **header, content_type="application/json")
         
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {
-                        'test1 TIRE INFORMATION': [{
-                            'aspect_ratio': 60,
-                            'name'        : '오피러스 전 타이어',
-                            'wheel_size'  : 16,
-                            'width'       : 225
+                        "test1 TIRE INFORMATION": [{
+                            "aspect_ratio": 60,
+                            "name"        : "오피러스 전 타이어",
+                            "wheel_size"  : 16,
+                            "width"       : 225
                             },
                             {
-                            'aspect_ratio': 60,
-                            'name'        : '오피러스 후 타이어',
-                            'wheel_size'  : 16,
-                            'width'       : 225
+                            "aspect_ratio": 60,
+                            "name"        : "오피러스 후 타이어",
+                            "wheel_size"  : 16,
+                            "width"       : 225
                             }
                         ]
                     }
@@ -167,7 +168,7 @@ class CarTest(TestCase):
 
     def test_get_tire_info_wrong_user(self):
         header = {"HTTP_Authorization": self.user1_token}
-        response=self.client.get('/car/tire?id=test2', **header, content_type='application/json')
+        response=self.client.get("/car/tire?id=test2", **header, content_type="application/json")
         
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json(), {"message" : "WRONG USER"}) 
