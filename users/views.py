@@ -2,8 +2,8 @@ import jwt
 import json
 import bcrypt
 
-from django.views.generic   import View
 from django.http            import JsonResponse
+from django.views.generic   import View
 from django.core.exceptions import ValidationError
 
 from users.models   import User
@@ -26,10 +26,10 @@ class SignupView(View):
             return JsonResponse({"message":"SUCCESS"}, status=200)
 
         except ValidationError as e:
-            return JsonResponse({'message': e.message}, status=400)
+            return JsonResponse({"message": e.message}, status=400)
 
         except KeyError:
-            return JsonResponse({'message': "KEY ERROR"}, status=400)
+            return JsonResponse({"message": "KEY ERROR"}, status=400)
 
 
 class SigninView(View):
@@ -40,12 +40,12 @@ class SigninView(View):
             password = validate_user_pwd(user_id, data["password"])
             
             if password:
-                token = jwt.encode({'user_id':user_id.id}, MY_SECRET_KEY, ALGORITHM).decode('utf-8')
+                token = jwt.encode({"user_id": user_id.id}, MY_SECRET_KEY, ALGORITHM).decode("utf-8")
             
             return JsonResponse({"message": "SUCCESS", "token": token}, status=200)
 
         except ValidationError as e:
-            return JsonResponse({'message': e.message}, status=400)
+            return JsonResponse({"message": e.message}, status=400)
 
         except KeyError:
-            return JsonResponse({'message': "KEY ERROR"}, status=400)
+            return JsonResponse({"message": "KEY ERROR"}, status=400)

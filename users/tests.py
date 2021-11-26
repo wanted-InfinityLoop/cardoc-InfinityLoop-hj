@@ -68,28 +68,28 @@ class SignInTest(TestCase):
 
     def test_post_signin_success(self):
         signin_data = {"id": "test1", "password": "qwerty1!"}
-        response = self.client.post('/user/signin', json.dumps(signin_data), content_type='application/json')
+        response = self.client.post("/user/signin", json.dumps(signin_data), content_type="application/json")
         
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"message" : "SUCCESS", "token": self.access_token1})  
 
     def test_post_signin_invalid_id(self):
         signup_data = {"id": "test2", "password": "qwerty1!"}
-        response=self.client.post('/user/signin',json.dumps(signup_data), content_type='application/json')
+        response=self.client.post("/user/signin", json.dumps(signup_data), content_type="application/json")
         
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json(), {"message" : "INVALID INPUT"})  
 
     def test_post_signin_invalid_pwd(self):
         signup_data = {"id": "test1", "password": "qwerty@@"}
-        response=self.client.post('/user/signin',json.dumps(signup_data), content_type='application/json')
+        response=self.client.post("/user/signin", json.dumps(signup_data), content_type="application/json")
         
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json(), {"message" : "INVALID INPUT"}) 
 
     def test_post_signin_key_error(self):
         signup_data = {"ids": "test1", "password": "qwerty@@"}
-        response=self.client.post('/user/signin',json.dumps(signup_data), content_type='application/json')
+        response=self.client.post("/user/signin", json.dumps(signup_data), content_type="application/json")
         
         self.assertEqual(response.status_code, 400)
         self.assertEqual(response.json(), {"message" : "KEY ERROR"})         

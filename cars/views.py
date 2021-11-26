@@ -2,7 +2,7 @@ import json
 
 from django.db            import transaction
 from django.http          import JsonResponse
-from django.forms.models import model_to_dict 
+from django.forms.models  import model_to_dict 
 from django.views.generic import View
 
 from users.models   import User
@@ -42,7 +42,7 @@ class CarView(View):
         datas = json.loads(request.body)
         
         if len(datas) > 5:
-            return JsonResponse({'message': "THE MAXIMUM NUMBER OF TIRES STORED IS 5"}, status=400)
+            return JsonResponse({"message": "THE MAXIMUM NUMBER OF TIRES STORED IS 5"}, status=400)
 
         for data in datas:
             try:
@@ -76,7 +76,7 @@ class CarView(View):
                 saved_tire_list.append(data["id"])
 
             except KeyError:
-                return JsonResponse({'message': "KEY ERROR"}, status=400)
+                return JsonResponse({"message": "KEY ERROR"}, status=400)
             
             except:
                 unsaved_tire_list.append(data["id"])
@@ -87,3 +87,4 @@ class CarView(View):
             },
             status=200
         )
+
