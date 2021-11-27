@@ -57,8 +57,8 @@ class CarView(View):
                             year_type=info["year_type"]
                             )
                         
-                        f_tire = create_tire(FrontTire, info["car_name"], info["front_tire"])
-                        r_tire = create_tire(RearTire, info["car_name"], info["rear_tire"])
+                        f_tire = create_tire(FrontTire, info["car_name"], info["front_tire"], "전")
+                        r_tire = create_tire(RearTire, info["car_name"], info["rear_tire"], "후")
 
                         Spec.objects.create(
                             car       =car,

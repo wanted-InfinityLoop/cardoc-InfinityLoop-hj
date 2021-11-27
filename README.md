@@ -305,7 +305,7 @@ http://52.78.100.243:8000/car/tire?id=test1
             "wheel_size": 14
         },
         {
-            "name": "리오 SF 전 타이어",
+            "name": "리오 SF 후 타이어",
             "width": 175,
             "aspect_ratio": 65,
             "wheel_size": 14
@@ -335,8 +335,8 @@ info_dic = {
     "car_brand" : car_info.get("brandName", None),
     "year_type" : car_info.get("yearType", None),
     "car_name"  : car_info.get("submodelGroupName", None),
-    "front_tire": front_tire,
-    "rear_tire" : rear_tire
+    "front_tire": list(filter(bool, front_tire)),
+    "rear_tire" : list(filter(bool, rear_tire))
 }
 ```
 

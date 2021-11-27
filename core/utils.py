@@ -32,26 +32,25 @@ def get_car_info(data):
     car_info   = requests.get(f"https://dev.mycar.cardoc.co.kr/v1/trim/{trim_id}").json()
     front_tire = re.split("[P/R]",car_info.get("spec")["driving"]["frontTire"]["value"].replace(" ", ""))
     rear_tire  = re.split("[P/R]", car_info.get("spec")["driving"]["rearTire"]["value"].replace(" ", ""))
-    
     info_dic = {
         "trim_id"   : trim_id,
         "car_brand" : car_info.get("brandName", None),
         "year_type" : car_info.get("yearType", None),
         "car_name"  : car_info.get("submodelGroupName", None),
-        "front_tire": front_tire,
-        "rear_tire" : rear_tire
+        "front_tire": list(filter(bool, front_tire)),
+        "rear_tire" : list(filter(bool, rear_tire))
     }
 
     return info_dic
 
 
-def create_tire(Tire, car_name, info):
+def create_tire(Tire, car_name, info, location):
     WIDTH        = 0
     ASPECT_RATIO = 1
     WHEEL_SIZE   = 2
 
     tire = Tire.objects.create(
-        name        =f"{car_name} 전 타이어",
+        name        =f"{car_name} {location} 타이어",
         width       =info[WIDTH],
         aspect_ratio=info[ASPECT_RATIO],
         wheel_size  =info[WHEEL_SIZE]
